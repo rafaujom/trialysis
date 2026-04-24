@@ -1,0 +1,7 @@
+trial_id,drug_name,patient_age,patient_sex,dosage_mg,outcome,start_date,end_date
+T001,DrugA,45,F,100,improved,2023-01-10,2023-04-10
+T002,DrugB,52,M,200,no_change,2023-02-01,2023-05-01
+T003,DrugA,38,M,150,worsened,2023-03-15,2023-06-15
+T004,DrugC,60,F,250,improved,2023-04-01,2023-07-01
+T005,DrugB,29,M,100,improved,2023-05-10,2023-08-10
+T006,DrugC,47,F,300,no_change,2023-06-01,2023-09-01
