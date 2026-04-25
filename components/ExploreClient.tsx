@@ -1,11 +1,10 @@
-// components/ExploreClient.tsx
 "use client";
 
 import { useState } from "react";
 import CsvUploader from "@/components/CsvUploader";
 import TrialTable from "@/components/TrialTable";
-import SummaryCard from "@/components/SummaryCard";
 import type { TrialRow } from "@/types/trial";
+import SummaryCard from "@/components/SummaryCard";
 
 type Props = {
   initialRows: TrialRow[];
