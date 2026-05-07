@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import clientPromise from "@/lib/mongodb";
+import getClientPromise from "@/lib/mongodb";
 import type { TrialRow } from "@/types/trial";
+
+export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {
   const { trials }: { trials: TrialRow[] } = await req.json();
@@ -9,7 +11,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "No data provided." }, { status: 400 });
   }
 
-  const client = await clientPromise;
+  const client = await getClientPromise();
   const db = client.db(process.env.MONGODB_DB);
 
   // Replace all existing trials with the new upload
@@ -20,7 +22,7 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET() {
-  const client = await clientPromise;
+  const client = await getClientPromise();
   const db = client.db(process.env.MONGODB_DB);
 
   const trials = await db
