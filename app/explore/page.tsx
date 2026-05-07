@@ -2,8 +2,10 @@ import clientPromise from "@/lib/mongodb";
 import ExploreClient from "@/components/ExploreClient";
 import type { TrialRow } from "@/types/trial";
 
+export const dynamic = "force-dynamic";
+
 export default async function ExplorePage() {
-  const client = await clientPromise;
+  const client = await clientPromise();
   const db = client.db(process.env.MONGODB_DB);
 
   const trials = await db
@@ -12,6 +14,7 @@ export default async function ExplorePage() {
     .toArray();
 
   // MongoDB adds _id to every document — strip it before passing to the client
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const rows = trials.map(({ _id, ...rest }) => rest) as TrialRow[];
 
   return (
