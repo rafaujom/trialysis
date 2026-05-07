@@ -1,19 +1,26 @@
-"use client";
-
-import { useState } from "react";
-import CsvUploader from "@/components/CsvUploader";
-import TrialTable from "@/components/TrialTable";
-import { mockTrials } from "@/lib/mock-trials";
+import clientPromise from "@/lib/mongodb";
+import ExploreClient from "@/components/ExploreClient";
 import type { TrialRow } from "@/types/trial";
 
-export default function ExplorePage() {
-  const [rows, setRows] = useState<TrialRow[]>(mockTrials);
+export const dynamic = "force-dynamic";
+
+export default async function ExplorePage() {
+  const client = await clientPromise();
+  const db = client.db(process.env.MONGODB_DB);
+
+  const trials = await db
+    .collection<TrialRow>("trials")
+    .find({})
+    .toArray();
+
+  // MongoDB adds _id to every document — strip it before passing to the client
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const rows = trials.map(({ _id, ...rest }) => rest) as TrialRow[];
 
   return (
     <div>
       <h1 className="mb-6 text-xl font-semibold">Trial Explorer</h1>
-      <CsvUploader onData={setRows} />
-      <TrialTable rows={rows} />
+      <ExploreClient initialRows={rows} />
     </div>
   );
 }
